@@ -66,7 +66,7 @@ const mockMatchedJobs: JobListing[] = [
 
 export default function SearchCVPage() {
   const [uploadedCV, setUploadedCV] = useState('CV_new.pdf');
-  const [jobs, setJobs] = useState<JobListing[]>(mockMatchedJobs);
+  const [jobs, _] = useState<JobListing[]>(mockMatchedJobs);
   const router = useRouter();
 
   const handleRemoveCV = () => {

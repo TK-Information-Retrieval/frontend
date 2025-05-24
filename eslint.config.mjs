@@ -10,7 +10,15 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // Extend Next.js defaults
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  // Override or disable rules
+  {
+    rules: {
+      "@next/next/no-html-link-for-pages": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Upload } from 'lucide-react';
+import Link from 'next/link';
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -64,8 +65,8 @@ export default function HomePage() {
             <div className="flex items-center space-x-8">
               <h1 className="text-xl font-semibold text-gray-900">SeekCareer</h1>
               <nav className="flex space-x-8">
-                <a href="/" className="text-gray-900 hover:text-gray-700">Home</a>
-                <a href="/search" className="text-gray-500 hover:text-gray-700">Job Postings</a>
+                <Link href="/" className="text-gray-500 hover:text-gray-700">Home</Link>
+                <Link href="/search" className="text-gray-500 hover:text-gray-700">Job Postings</Link>
               </nav>
             </div>
             <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
