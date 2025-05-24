@@ -1,12 +1,17 @@
 # SeekCareer - Job Search Platform
-
 A modern job search platform built with Next.js, TypeScript, and Tailwind CSS.
+
+## 🔗 Link: [seekcareer.netlify.app](https://seekcareer.netlify.app)
+Note: if encounter any errors, please run this on CMD:
+```"C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir="C:\chrome_dev"```<br>
+Then, visit again our [link](https://seekcareer.netlify.app) on the new opened tab.
 
 ## Features
 
 - **Home Page**: Introduction with search functionality and CV upload
 - **Search Page**: Browse and search job postings by keywords
 - **CV-based Search**: Upload CV to find matching job opportunities
+- **Query Suggestions**: Get suggestions for your query to maximize your search experience
 - **Job Details**: Detailed job information with company details and application
 
 ## Tech Stack
