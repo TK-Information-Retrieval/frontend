@@ -1,5 +1,15 @@
 export interface JobListing {
 	job_id: string,
+	job_title: string,
+	company: string,
+	location: string,
+	country: string,
+	salary_range: string,
+	work_type: string
+}
+
+export interface JobDetail extends JobListing {
+	job_id: string,
 	experience: string,
 	qualifications: string,
 	salary_range: string,
@@ -18,7 +28,7 @@ export interface JobListing {
 	job_portal: string,
 	job_description: string,
 	benefits: string[],
-	skills: string[],
+	skills: string,
 	responsibilities: string[],
 	company: string,
 	company_profile: {
