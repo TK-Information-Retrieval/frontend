@@ -1,5 +1,5 @@
 # SeekCareer - Job Search Platform
-A modern job search platform built with Next.js, TypeScript, and Tailwind CSS.
+A modern job search platform.
 
 ## 🔗 Link: [seekcareer.netlify.app](https://seekcareer.netlify.app)
 Note: if encounter any errors, please run this on CMD:
@@ -14,67 +14,13 @@ Then, visit again our [link](https://seekcareer.netlify.app) on the new opened t
 - **Query Suggestions**: Get suggestions for your query to maximize your search experience
 - **Job Details**: Detailed job information with company details and application
 
-## Tech Stack
+## Front-End Tech Stack
 
 - **Framework**: Next.js 14
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **State Management**: React Hooks
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd seekcareer-app
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Project Structure
-
-```
-src/
-├── components/          # Reusable React components
-│   ├── Layout.tsx      # Main layout wrapper
-│   ├── JobCard.tsx     # Job listing card component
-│   └── FileUpload.tsx  # File upload component
-├── data/               # Mock data and constants
-│   └── jobs.ts         # Sample job data
-├── pages/              # Next.js pages
-│   ├── _app.tsx        # App wrapper
-│   ├── index.tsx       # Home page
-│   ├── search.tsx      # Job search page
-│   ├── search-cv.tsx   # CV-based search page
-│   └── job/
-│       └── [id].tsx    # Dynamic job detail page
-├── styles/             # Global styles
-│   └── globals.css     # Tailwind CSS imports
-└── types/              # TypeScript type definitions
-    └── job.ts          # Job interface
-```
-
+- 
 ## Pages Overview
 
 ### 1. Home Page (`/`)
@@ -84,33 +30,18 @@ src/
 - Navigation to other sections
 
 ### 2. Search Page (`/search`)
+Search by Query
 - Keyword-based job search
 - Grid layout displaying job cards
 - Search results filtering
 - Direct navigation to job details
 
-### 3. CV Search Page (`/search-cv`)
+Search by CV
 - File upload interface for CV/resume
 - AI-powered job matching simulation
 - Personalized job recommendations
-- Upload status and file management
 
 ### 4. Job Detail Page (`/job/[id]`)
 - Comprehensive job information
 - Company details and benefits
 - Contact information
-- Apply now functionality
-
-## Deployment
-
-### Build for Production
-```bash
-npm run build
-npm start
-```
-
-### Deploy to Vercel
-```bash
-npm install -g vercel
-vercel --prod
-```
