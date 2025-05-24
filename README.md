@@ -20,7 +20,7 @@ Then, visit again our [link](https://seekcareer.netlify.app) on the new opened t
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **State Management**: React Hooks
-- 
+  
 ## Pages Overview
 
 ### 1. Home Page (`/`)
