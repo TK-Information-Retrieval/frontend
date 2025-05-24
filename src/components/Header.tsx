@@ -16,9 +16,6 @@ export default function Header() {
               <Link href="/search" className="text-gray-500 hover:text-gray-700">Job Postings</Link>
             </nav>
           </div>
-          <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Upload CV
-          </button>
         </div>
       </div>
     </header>

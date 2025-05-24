@@ -1,21 +1,36 @@
 export interface JobListing {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  salary: string;
-  type?: string;
-  postedDate?: string;
-  description?: string;
-}
-
-export interface JobDetail extends JobListing {
-  requirements: string[];
-  benefits: string[];
-  companySize: string;
-  industry: string;
-  description: string;
-  postedDate: string;
+	job_id: string,
+	experience: string,
+	qualifications: string,
+	salary_range: string,
+	location: string,
+	country: string,
+	latitude: number,
+	longitude: number,
+	work_type: string,
+	company_size: number,
+	job_posting_date: string,
+	preference: string,
+	contact_person: string,
+	contact: string,
+	job_title: string,
+	role: string,
+	job_portal: string,
+	job_description: string,
+	benefits: string[],
+	skills: string[],
+	responsibilities: string[],
+	company: string,
+	company_profile: {
+		CEO: string,
+		Zip: string,
+		City: string,
+		State: string,
+		Sector: string,
+		Ticker: string,
+		Website: string,
+		Industry: string
+	}
 }
 
 export interface SearchFilters {

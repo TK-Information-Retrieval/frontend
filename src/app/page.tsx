@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Upload } from 'lucide-react';
-import Link from 'next/link';
+import { useFile } from '../lib/FileContext';
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [dragActive, setDragActive] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const { uploadedFile, setUploadedFile } = useFile();
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -51,10 +51,11 @@ export default function HomePage() {
   };
 
   const handleCVSearch = () => {
-    if (uploadedFile) {
-      router.push('/search-cv');
+  if (uploadedFile) {
+      router.push('/search?mode=pdf');
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gray-50">
