@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, MapPin, DollarSign } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { X, MapPin, DollarSign } from 'lucide-react';
 
 interface JobListing {
   id: string;
@@ -10,79 +10,76 @@ interface JobListing {
   company: string;
   location: string;
   salary: string;
-  type?: string;
+  type: string;
 }
 
-const mockJobs: JobListing[] = [
+const mockMatchedJobs: JobListing[] = [
   {
     id: '1',
     title: 'Web Developer',
-    company: 'PT Awan Hujan',
+    company: 'PT Awan Hujan - Intern',
     location: 'Jakarta Selatan',
-    salary: '8M-10M/month'
+    salary: '2M-3M/month',
+    type: 'Intern'
   },
   {
     id: '2',
     title: 'Web Developer',
-    company: 'PT Awan Hujan',
+    company: 'PT Awan Hujan - Fulltime',
     location: 'Jakarta Selatan',
-    salary: '8M-10M/month'
+    salary: '8M-10M/month',
+    type: 'Fulltime'
   },
   {
     id: '3',
     title: 'Web Developer',
-    company: 'PT Awan Hujan',
+    company: 'PT Awan Hujan - Fulltime',
     location: 'Jakarta Selatan',
-    salary: '8M-10M/month'
+    salary: '8M-10M/month',
+    type: 'Fulltime'
   },
   {
     id: '4',
     title: 'Web Developer',
-    company: 'PT Awan Hujan',
+    company: 'PT Awan Hujan - Fulltime',
     location: 'Jakarta Selatan',
-    salary: '8M-10M/month'
+    salary: '8M-10M/month',
+    type: 'Fulltime'
   },
   {
     id: '5',
     title: 'Web Developer',
-    company: 'PT Awan Hujan',
+    company: 'PT Awan Hujan - Fulltime',
     location: 'Jakarta Selatan',
-    salary: '8M-10M/month'
+    salary: '8M-10M/month',
+    type: 'Fulltime'
   },
   {
     id: '6',
     title: 'Web Developer',
-    company: 'PT Awan Hujan',
+    company: 'PT Awan Hujan - Fulltime',
     location: 'Jakarta Selatan',
-    salary: '8M-10M/month'
+    salary: '8M-10M/month',
+    type: 'Fulltime'
   }
 ];
 
-export default function SearchPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [jobs, setJobs] = useState<JobListing[]>(mockJobs);
+export default function SearchCVPage() {
+  const [uploadedCV, setUploadedCV] = useState('CV_new.pdf');
+  const [jobs, setJobs] = useState<JobListing[]>(mockMatchedJobs);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const query = searchParams?.get('q');
-    if (query) {
-      setSearchQuery(query);
-    }
-  }, [searchParams]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Filter jobs based on search query
-    const filteredJobs = mockJobs.filter(job =>
-      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.company.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setJobs(filteredJobs);
+  const handleRemoveCV = () => {
+    setUploadedCV('');
+    router.push('/');
   };
 
   const handleJobClick = (jobId: string) => {
     router.push(`/job/${jobId}`);
+  };
+
+  const handleSearchJob = () => {
+    router.push('/search');
   };
 
   return (
@@ -95,11 +92,14 @@ export default function SearchPage() {
               <h1 className="text-xl font-semibold text-gray-900">SeekCareer</h1>
               <nav className="flex space-x-8">
                 <a href="/" className="text-gray-500 hover:text-gray-700">Home</a>
-                <a href="/search" className="text-gray-900 hover:text-gray-700">Job Postings</a>
+                <a href="/search" className="text-gray-500 hover:text-gray-700">Job Postings</a>
               </nav>
             </div>
-            <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-              Upload CV
+            <button 
+              onClick={handleSearchJob}
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Search Job
             </button>
           </div>
         </div>
@@ -107,24 +107,28 @@ export default function SearchPage() {
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Search Bar */}
-        <form onSubmit={handleSearch} className="mb-8">
-          <div className="relative">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search for jobs..."
-              className="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-pink-400"
-            />
-            <button
-              type="submit"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-pink-400 hover:text-pink-600"
-            >
-              <Search className="w-6 h-6" />
-            </button>
+        {/* Uploaded CV Display */}
+        {uploadedCV && (
+          <div className="mb-8">
+            <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between">
+              <div className="flex items-center">
+                <span className="text-sm text-gray-600 mr-3">Uploaded CV:</span>
+                <span className="text-sm font-medium text-gray-900">{uploadedCV}</span>
+              </div>
+              <button
+                onClick={handleRemoveCV}
+                className="p-1 text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </form>
+        )}
+
+        {/* Matched Jobs Section */}
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Jobs matched with your CV</h2>
+        </div>
 
         {/* Job Listings Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -154,7 +158,13 @@ export default function SearchPage() {
 
         {jobs.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No jobs found matching your search.</p>
+            <p className="text-gray-500 text-lg">No matching jobs found for your CV.</p>
+            <button
+              onClick={() => router.push('/')}
+              className="mt-4 px-6 py-2 bg-pink-400 text-white rounded-lg hover:bg-pink-500 transition-colors"
+            >
+              Upload New CV
+            </button>
           </div>
         )}
       </main>
