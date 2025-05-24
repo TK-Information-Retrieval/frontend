@@ -1,103 +1,176 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Search, Upload } from 'lucide-react';
+
+export default function HomePage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [dragActive, setDragActive] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+        setUploadedFile(file);
+      }
+    }
+  };
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+        setUploadedFile(file);
+      }
+    }
+  };
+
+  const handleCVSearch = () => {
+    if (uploadedFile) {
+      router.push('/search-cv');
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-8">
+              <h1 className="text-xl font-semibold text-gray-900">SeekCareer</h1>
+              <nav className="flex space-x-8">
+                <a href="/" className="text-gray-900 hover:text-gray-700">Home</a>
+                <a href="/search" className="text-gray-500 hover:text-gray-700">Job Postings</a>
+              </nav>
+            </div>
+            <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              Upload CV
+            </button>
+          </div>
+        </div>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      {/* Main Content */}
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-8">
+            <div className="relative">
+              <div className="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="w-20 h-20 bg-blue-200 rounded-lg flex items-center justify-center">
+                  <Search className="w-8 h-8 text-blue-600" />
+                </div>
+              </div>
+              <div className="absolute -right-4 -top-4 w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-yellow-300 rounded"></div>
+              </div>
+              <div className="absolute -left-4 top-8 w-12 h-12 bg-pink-100 rounded-lg"></div>
+            </div>
+          </div>
+          
+          <div className="mb-8">
+            <span className="inline-block bg-pink-200 text-pink-800 px-6 py-2 rounded-full text-lg font-medium mb-4">
+              success
+            </span>
+            <h2 className="text-3xl font-normal text-gray-900">starts here.</h2>
+          </div>
+
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="mb-8">
+            <div className="relative max-w-2xl mx-auto">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Find your dream job today"
+                className="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-pink-400"
+              />
+              <button
+                type="submit"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-pink-400 hover:text-pink-600"
+              >
+                <Search className="w-6 h-6" />
+              </button>
+            </div>
+          </form>
+
+          <p className="text-gray-500 mb-8">or</p>
+
+          <h3 className="text-2xl font-normal text-gray-900 mb-8">find your best match job</h3>
+
+          {/* File Upload Area */}
+          <div
+              className={`relative max-w-md mx-auto border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+                dragActive
+                  ? 'border-pink-400 bg-pink-50'
+                  : 'border-gray-300 bg-white'
+              }`}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+            >
+            <div className="mb-4">
+              <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            </div>
+            
+            {uploadedFile ? (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600 mb-2">Uploaded:</p>
+                <p className="text-sm font-medium text-gray-900">{uploadedFile.name}</p>
+                <button
+                  onClick={handleCVSearch}
+                  className="mt-4 px-6 py-2 bg-pink-400 text-white rounded-lg hover:bg-pink-500 transition-colors"
+                >
+                  Search Jobs with CV
+                </button>
+              </div>
+            ) : (
+              <>
+                <label htmlFor="file-upload">
+                  <span className="inline-block px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 mb-4 cursor-pointer">
+                    Upload CV/Resume
+                  </span>
+                </label>
+                <p className="text-xs text-gray-500">or drop your file here</p>
+              </>
+            )}
+            
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={handleFileInput}
+              className="hidden"
+              id="file-upload"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
